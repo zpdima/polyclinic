@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Registration Form</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/registration.css}" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<form autocomplete="off" action="#" th:action="@{/printreception}"
+					th:object="${reception}" method="post" class="form-horizontal"
+					role="form" enctype="multipart/form-data">
+					<h3 th:utext="|Талон № ${reception.id}|" ></h3>
+					<h4 th:utext="| Дата и время: ${#dates.format(reception.beginDateTime, 'dd.MM.yy HH:mm')}|" ></h4>
+					<h4 th:utext="| Кабинет № ${reception.doctor.numAp}|" ></h4>
+					<h4 th:utext="| ФИО доктора: ${reception.doctor.fullName}|" ></h4>
+					<h4 th:utext="| ФИО пациента: ${reception.patient.fullName}|" ></h4>
+					
+					<!-- <h4 th:utext="${reception.doctor.fullName}"></h4>  -->
+					
+					<span th:utext="${successMessage}"></span>
+
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

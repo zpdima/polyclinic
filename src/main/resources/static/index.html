@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Регистратура</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+
+
+	<div class="container">
+
+
+		<div class="panel-group  panel panel-primary" style="margin-top: 40px">
+
+			<ul class="nav nav-pills nav-stacked">
+				<li class="active"><a href="#" th:text="Поликлиника">Поликлиника</a></li>
+				<li><a href="doctors/" th:href="@{/doctors}">Врачи</a></li>
+				<li><a href="patients/" >Пациенты</a></li>
+				<li><a href="schedules/" >Расписание</a></li>
+				<li><a href="doctor_receptions/" >Запись на прием</a></li>
+				<li><a href="stations/" th:href="@{/stations}">Участки</a></li>
+			</ul>
+
+		</div>
+
+		<span class="alert-success" th:utext="${successMessage}"></span> <span
+			class="alert-danger" th:utext="${errorMessage}"></span> <br />
+
+
+</body>
+</html>

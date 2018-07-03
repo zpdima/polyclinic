@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Участки</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+
+
+	<div class="container">
+
+
+		<div class="panel-group" style="margin-top: 40px">
+			<div class="panel panel-primary">
+				<div class="panel-body">
+
+					<h3 th:text="|Выбор врача|"></h3>
+					<h4 th:text="${#dates.format(standardDate, 'dd.MM.yyyy')}"></h4>
+					<a href="/" th:text="Главная" class="btn btn-info"></a>
+					
+					 <span
+						class="alert-success" th:utext="${successMessage}"></span> <span
+						class="alert-danger" th:utext="${errorMessage}"></span> <br />
+					<div>
+						<p>Что ищем?</p>
+						<input class="form-control" id="myInput" type="text"
+							placeholder="Введите искомую подстроку...">
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<th th:text="Код" width="35x" onclick="sortTable(0)">...</th>
+									<th th:text="ФИО" onclick="sortTable(1)" width="350px">...</th>
+ 									<th th:text="Специализация" width="150px" onclick="sortTable(2)">...</th>
+ 									<th width="250px" onclick="sortTable(3)">Участок</th>
+ 									<th width="250px" onclick="sortTable(4)">Номер кабинета</th>
+									<th width="250px">Действия</th>
+								</tr>
+							</thead>
+							<tbody id="myTable">
+								<tr th:each="doctor : ${doctors}">
+									<td th:utext="${doctor.id}">...</td>
+									<td th:utext="${doctor.fullName}">...</td>
+									<td th:utext="${doctor.specialization}">...</td>
+									<td th:utext="*{doctor.station} != null ? ${doctor.station.id} : '-'">...</td>
+									<td th:utext="${doctor.numAp}">...</td>
+
+									<td><a href="/" th:href="@{receptions(doctor_id=${doctor.id})}"
+										class="btn btn-success custom-width">Запись на прием</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document)
+				.ready(
+						function() {
+							$("#myInput")
+									.on(
+											"keyup",
+											function() {
+												var value = $(this).val()
+														.toLowerCase();
+
+												$("#myTable tr")
+														.filter(
+																function() {
+																	$(this)
+																			.toggle(
+																					$(
+																							this)
+																							.text()
+																							.toLowerCase()
+																							.indexOf(
+																									value) > -1)
+																});
+											});
+						});
+		
+		function sortTable(n) {
+			var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+			table = document.getElementById("myTable");
+			switching = true;
+			//Set the sorting direction to ascending:
+			dir = "asc";
+			/*Make a loop that will continue until
+			no switching has been done:*/
+			while (switching) {
+				//start by saying: no switching is done:
+				switching = false;
+				rows = table.getElementsByTagName("TR");
+				/*Loop through all table rows (except the
+				first, which contains table headers):*/
+				for (i = 0; i < (rows.length - 1); i++) {
+					//start by saying there should be no switching:
+					shouldSwitch = false;
+					/*Get the two elements you want to compare,
+					one from current row and one from the next:*/
+					x = rows[i].getElementsByTagName("TD")[n];
+					y = rows[i + 1].getElementsByTagName("TD")[n];
+					/*check if the two rows should switch place,
+					based on the direction, asc or desc:*/
+					if (dir == "asc") {
+						if (x.innerHTML.toLowerCase() > y.innerHTML
+								.toLowerCase()) {
+							//if so, mark as a switch and break the loop:
+							shouldSwitch = true;
+							break;
+						}
+					} else if (dir == "desc") {
+						if (x.innerHTML.toLowerCase() < y.innerHTML
+								.toLowerCase()) {
+							//if so, mark as a switch and break the loop:
+							shouldSwitch = true;
+							break;
+						}
+					}
+				}
+				if (shouldSwitch) {
+					/*If a switch has been marked, make the switch
+					and mark that a switch has been done:*/
+					rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+					switching = true;
+					//Each time a switch is done, increase this count by 1:
+					switchcount++;
+				} else {
+					/*If no switching has been done AND the direction is "asc",
+					set the direction to "desc" and run the while loop again.*/
+					if (switchcount == 0 && dir == "asc") {
+						dir = "desc";
+						switching = true;
+					}
+				}
+			}
+		};
+		
+	</script>
+
+</body>
+</html>
